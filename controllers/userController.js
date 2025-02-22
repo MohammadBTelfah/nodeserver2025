@@ -10,12 +10,22 @@ exports.getAllUsers = async (req, res) => {
     }
 }
 exports.createUser = async (req, res) => {
-    const {name , email, password} = req.body;
+    const {Name , email, password} = req.body;
     try {
-        user ={name, email, password}
+        user ={Name, email, password}
         savedUser = new User(user)
         savedUser.save()
         res.status(200).json(savedUser)
+    } catch (error) {
+        res.status(500).json({Message: error.Message})
+    }
+}
+exports.getUserByname = async (req, res) => {
+    const {Name}=req.body
+    console.log(Name)
+    try {
+        const user = await User.find({Name:Name})
+        res.status(200).json(user)
     } catch (error) {
         res.status(500).json({Message: error.Message})
     }
