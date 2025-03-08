@@ -1,6 +1,8 @@
 const User= require('../models/User')
 const bycrypt = require('bcrypt') 
-
+const jwt = require('jsonwebtoken')
+require('dotenv').config();
+const SECRET_KEY = process.env.SECRET_KEY
 // create a function to get all users
 exports.getAllUsers = async (req, res) => {
     try {
@@ -69,16 +71,30 @@ exports.updateUser = async (req, res) => {
         exports.login = async (req, res) => {
             const {Email, Password} = req.body
             try {
-                const User = await User.findOne({Email:Email})
-                if(!User){
+                const user = await User.findOne({Email:Email})
+                if(!user){
                     return res.status(400).json({Message: 'User not found'})
                 }
-                const isMatch = await bycrypt.compare(Password, User.Password)
+                const isMatch = await bycrypt.compare(Password, user.Password)
                 if(!isMatch){
                     return res.status(400).json({Message: 'Invalid Password'})
                 }
-                res.status(200).json({Message: 'User logged in successfully', User: User})
+                const token = jwt.sign({userId: user._id}, SECRET_KEY, {expiresIn: '1h'})
+                res.status(200).json({Message: 'User logged in successfully', token})
             } catch (error) {
                 res.status(500).json({Message: error.Message})
+            }
+        }
+        exports.auth = async (req, res, next) => {
+            const token = req.header('Authorization')
+            if (!token) {
+                return res.status(401).json({ Message: 'token not found' })
+            }
+            try {
+                const verified = jwt.verify(token, SECRET_KEY)
+                req.user = verified
+                next()
+            } catch (error) {
+                res.status(400).json({ Message: 'Invalid Token' })
             }
         }
