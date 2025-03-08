@@ -1,4 +1,6 @@
 const User= require('../models/User')
+const bycrypt = require('bcrypt') 
+
 // create a function to get all users
 exports.getAllUsers = async (req, res) => {
     try {
@@ -59,6 +61,23 @@ exports.updateUser = async (req, res) => {
             try {
                 const user = await User.findById(id)
                 res.status(200).json(user)
+            } catch (error) {
+                res.status(500).json({Message: error.Message})
+            }
+        }
+        //create the function to login and decrypt the password
+        exports.login = async (req, res) => {
+            const {Email, Password} = req.body
+            try {
+                const User = await User.findOne({Email:Email})
+                if(!User){
+                    return res.status(400).json({Message: 'User not found'})
+                }
+                const isMatch = await bycrypt.compare(Password, User.Password)
+                if(!isMatch){
+                    return res.status(400).json({Message: 'Invalid Password'})
+                }
+                res.status(200).json({Message: 'User logged in successfully', User: User})
             } catch (error) {
                 res.status(500).json({Message: error.Message})
             }
