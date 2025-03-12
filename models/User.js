@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const bycrypt = require('bcrypt') 
-const UserSchema=   new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     Name: {
         type: String,
         required: true
@@ -12,7 +12,11 @@ const UserSchema=   new mongoose.Schema({
     Password: {
         type: String,
         required: true
-   }
+    },
+    Role: {
+        type: String,
+        default: 'user'
+    }
 })
 // hash the password before saving the user
 UserSchema.pre('save', async function(next){

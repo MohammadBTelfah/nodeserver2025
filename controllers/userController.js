@@ -98,3 +98,20 @@ exports.updateUser = async (req, res) => {
                 res.status(400).json({ Message: 'Invalid Token' })
             }
         }
+        exports.admin = async (req, res, next) => {
+            const token = req.header('Authorization')
+            if (!token) {
+                return res.status(401).json({ Message: 'token not found' })
+            }
+            try {
+                const verified = jwt.verify(token, SECRET_KEY)
+                console.log(verified)
+                if(verified.Role !== 'Admin'){
+                    return res.status(401).json({ Message: 'You are not authorized to access this route' })
+                }
+                req.user = verified
+                next()
+            } catch (error) {
+                res.status(400).json({ Message: 'Invalid Token' })
+            }
+        }
