@@ -17,9 +17,9 @@ exports.getAllUsers = async (req, res) => {
 exports.createUser = async (req, res) => {
     const {Name , Email, Password} = req.body;
     try {
-        user ={Name, Email, Password}
-        savedUser = new User(user)
-        savedUser.save()
+        const user = {Name, Email, Password}
+        const savedUser = new User(user)
+        await savedUser.save()
         res.status(200).json(savedUser)
     } catch (error) {
         res.status(500).json({Message: error.Message})
@@ -79,7 +79,7 @@ exports.updateUser = async (req, res) => {
                 if(!isMatch){
                     return res.status(400).json({Message: 'Invalid Password'})
                 }
-                const token = jwt.sign({userId: user._id}, SECRET_KEY, {expiresIn: '1h'})
+                const token = jwt.sign({userId: user._id, Role: user.Role}, SECRET_KEY, {expiresIn: '1h'})
                 res.status(200).json({Message: 'User logged in successfully', token})
             } catch (error) {
                 res.status(500).json({Message: error.Message})
