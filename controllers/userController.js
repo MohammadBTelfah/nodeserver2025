@@ -28,7 +28,6 @@ exports.createUser = async (req, res) => {
 // create a function to get user by Name 
 exports.getUserByname = async (req, res) => {
     const {Name}=req.body
-    console.log(Name)
     try {
         const user = await User.find({Name:Name})
         res.status(200).json(user)
@@ -105,7 +104,6 @@ exports.updateUser = async (req, res) => {
             }
             try {
                 const verified = jwt.verify(token, SECRET_KEY)
-                console.log(verified)
                 if(verified.Role !== 'Admin'){
                     return res.status(401).json({ Message: 'You are not authorized to access this route' })
                 }
