@@ -69,6 +69,7 @@ exports.updateUser = async (req, res) => {
         //create the function to login and decrypt the password
         exports.login = async (req, res) => {
             const {Email, Password} = req.body
+            console.log('you are in login url')
             try {
                 const user = await User.findOne({Email:Email})
                 if(!user){
