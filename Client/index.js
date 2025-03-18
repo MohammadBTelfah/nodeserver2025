@@ -6,7 +6,7 @@ loginForm.addEventListener('sumbit', async (e) => {
     var Password= document.getElementById('Password').value;
     var user = {Email, Password}
     console.log(user)
-    var response = await fetch(API_URL, {
+    await fetch(API_URL, {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
