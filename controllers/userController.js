@@ -20,7 +20,7 @@ exports.createUser = async (req, res) => {
         const user = {Name, Email, Password}
         const savedUser = new User(user)
         await savedUser.save()
-        res.status(200).json(savedUser)
+        res.status(200).json({ savedUser, Message: 'User created successfully' })
     } catch (error) {
         res.status(500).json({Message: error.Message})
     }

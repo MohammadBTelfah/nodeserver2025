@@ -2,9 +2,9 @@ var loginForm=document.getElementById('loginForm');
 var API_URL = 'http://127.0.0.1:5050/api/login';
 loginForm.addEventListener('submit', async function (e){
     e.preventDefault();
-    var email=document.getElementById('email').value;
-    var password=document.getElementById('password').value;
-    var user={email,password};
+    var Email=document.getElementById('email').value;
+    var Password=document.getElementById('password').value;
+    var user={Email,Password};
     console.log(user);
     var response = await fetch(API_URL,{
         method: 'POST',
@@ -14,7 +14,7 @@ loginForm.addEventListener('submit', async function (e){
         body: JSON.stringify(user),
     }) .then(res=>res.json()).then(data=>{
         console.log(data);
-        if(data.message=='User logged in successfully'){
+        if(data.Message=='User logged in successfully'){
             alert('User logged in successfully');
             sessionStorage.setItem('token',data.token);
         }
