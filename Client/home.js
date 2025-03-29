@@ -6,9 +6,35 @@ if(!token){
 async function update(id){
 console.log(id);
 }
-async function deleteUser(id){
-    console.log(id);
+async function deleteUser(id) {
+    const conf = confirm("Are you sure you want to delete this user?");
+    const DELETE_URL = "http://127.0.0.1:5050/api/deleteUser";
+    
+    if (conf) {
+        try {
+            const response = await fetch(`${DELETE_URL}/${id}`, {
+                method: "DELETE",
+                headers: {
+                    'Authorization': token,
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const data = await response.json();
+            console.log(data);
+
+            if (data.message == 'User deleted successfully') {
+                alert('User deleted successfully');
+                window.location.reload();
+            }
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            alert('An error occurred while deleting the user.');
+        }
+    }
 }
+
+
 
 async function getUsers(){
 try {
