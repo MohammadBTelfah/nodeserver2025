@@ -21,7 +21,7 @@ async function getUsers() {
 
         const data = await res.json();
         const tbody = document.getElementById('tbody');
-        tbody.innerHTML = ""; // Clear old content
+        tbody.innerHTML = ""; 
 
         data.forEach(user => {
             const tr = document.createElement('tr');
@@ -115,6 +115,7 @@ async function update(user) {
     const UpdateForm = document.getElementById('update');
     UpdateForm.onsubmit = async function (e) {
         e.preventDefault();
+        console.log("Update user:", user._id, UpdateUserName.value, UpdateUserEmail.value, UpdateUserRole.value);
         try {
             const res = await fetch(`${UPDATE_URL}/${user._id}`, {
                 method: 'PUT',

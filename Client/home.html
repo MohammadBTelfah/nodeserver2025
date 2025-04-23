@@ -46,9 +46,6 @@
         
     </table>
     <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button>
   
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -73,13 +70,9 @@
                 <input type="email" class="form-control" id="UpdateUserEmail" required>
             </div>
             <div class="mb-3">
-                <input type="submit" class="form-control" id="submitBtn" required>
+                <input type="submit" data-bs-dismiss="modal" class="form-control" id="submitBtn" required>
             </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>

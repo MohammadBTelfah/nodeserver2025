@@ -15,9 +15,9 @@ exports.getAllUsers = async (req, res) => {
 }
 // create a function to create a user
 exports.createUser = async (req, res) => {
-    const {Name , Email, Password} = req.body;
+    const {Name , Email, Password,Role} = req.body;
     try {
-        const user = {Name, Email, Password}
+        const user = {Name, Email, Password,Role}
         const savedUser = new User(user)
         await savedUser.save()
         res.status(200).json({ savedUser, Message: 'User created successfully' })
@@ -38,9 +38,9 @@ exports.getUserByname = async (req, res) => {
 // create a function tp update user by id
 exports.updateUser = async (req, res) => {
     const {id} = req.params
-    const {Name, Email, Password} = req.body
+    const {Name, Email, Password,Role} = req.body
     try {
-        const user= await User.findByIdAndUpdate (id, {Name, Email, Password})
+        const user= await User.findByIdAndUpdate (id, {Name, Email, Password,Role})
         res.status(200).json({message: 'User updated successfully'})
         } catch (error) {
             res.status(500).json({Message: error.Message})
